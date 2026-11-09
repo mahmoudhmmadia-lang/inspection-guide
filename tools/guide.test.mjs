@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import { loadDocument } from '../../main/tools/latex-parse.mjs';
+import { loadDocument } from './latex-parse.mjs';
 import { buildHtml, ROOT, STORE } from './build-html.mjs';
 
 const pages = buildHtml();

@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: inspection-guide
+    runtime: static
+    branch: main
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./site

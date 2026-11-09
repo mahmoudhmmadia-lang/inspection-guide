@@ -1,16 +1,16 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-// One renderer and one theme for every guide: guides/main/tools and guides/shared/web.
-import { loadDocument } from '../../main/tools/latex-parse.mjs'
-import { renderSite, UI } from '../../main/tools/html-render.mjs'
+// Bundled renderer and theme keep standalone deployments independent of sibling repositories.
+import { loadDocument } from './latex-parse.mjs'
+import { renderSite, UI } from './html-render.mjs'
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const WEB = path.resolve(ROOT, '../shared/web')
+const WEB = path.join(ROOT, 'web')
 export const STORE = 'inspection-walkthrough-progress-v2'
 const TITLE = 'الكشف على المنشآت خطوة بخطوة'
 
-// `root` lets Guide Studio build an isolated draft copy; the theme always comes from shared/web.
+// `root` lets Guide Studio build an isolated draft copy; use the bundled theme.
 export function buildHtml(root = ROOT) {
     const site = path.join(root, 'site')
     fs.rmSync(path.join(site, 'ar'), { recursive: true, force: true })

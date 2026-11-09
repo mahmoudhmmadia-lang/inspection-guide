@@ -1,8 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
-// Reuses the main guide's playwright-core install.
-const { chromium } = await import(new URL('../../main/tools/node_modules/playwright-core/index.mjs', import.meta.url).href);
+import { chromium } from 'playwright-core';
 import { buildHtml, ROOT } from './build-html.mjs';
 import { createServer } from './serve-html.mjs';
 

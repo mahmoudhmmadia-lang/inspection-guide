@@ -8,7 +8,7 @@
 
 ## التشغيل
 
-مكان الدليل `guides/inspection`. يستخدم المحرّك المشترك `guides/main/tools` (و`playwright-core` المثبت هناك للتحقق) ومظهر `guides/shared/web`؛ لا تُعدَّل هذه الملفات المشتركة من هنا. التسميات بين «» طوبقت مع `origin/production` في 2026-11-08.
+The guide bundles its renderer in `tools/` and theme in `web/`, copied from the shared guide sources. No sibling repositories are required. Update these bundled copies explicitly when adopting shared renderer/theme changes.
 
 ```powershell
 npm run build
@@ -30,3 +30,9 @@ npm start
 `npm test` يفحص بناء الفصل الوحيد والروابط والأسماء وشرح الخطوات والصور ومفاتيح أرقامها. نجحت الفحوص الستة.
 
 نجح `npm run verify`: ثماني حالات عرض للرئيسية والفصل بعرضي 1440 و390 وبالمظهرين، مع فك ترميز الصور الأربع عشرة، وعدم تجاوز عرض الشاشة، والبحث وحفظ التقدم. التقرير في `review/browser-verification.json` وصور المعاينة في `review/screenshots/`. نجحت المعاينة محلياً عبر Playwright رغم عدم توفر مضيف التحكم المباشر. لم يُختبر سير اعتماد فعلي ولم تُغيّر بيانات المنظمة.
+
+## Render deployment
+
+Deploy this repository as a **Static Site**, branch `main`. Leave **Root Directory** empty, use **Build Command** `npm install && npm run build`, and set **Publish Directory** to `site` (not `.`). No start command is needed. Existing dashboard services must have these settings updated manually; `render.yaml` also defines them for Blueprint creation.
+
+Local checks: `npm test`. For browser checks, run `npm --prefix tools ci`, then `npm run verify` (requires Microsoft Edge). Preview with `npm start`.
