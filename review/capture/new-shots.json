@@ -1,0 +1,164 @@
+[
+  {
+    "name": "org-question-settings",
+    "url": "https://ministryofeconomyandindustry.kayanos.app/forms/view/001",
+    "marks": [
+      {
+        "n": 1,
+        "label": "هاتف أو رقم وطني"
+      },
+      {
+        "n": 2,
+        "label": "العرض"
+      },
+      {
+        "n": 3,
+        "label": "الصيغة"
+      },
+      {
+        "n": 4,
+        "label": "رمز الدولة"
+      },
+      {
+        "n": 5,
+        "label": "القواعد"
+      }
+    ],
+    "capturedAt": "2026-11-06T20:28:33.831Z"
+  },
+  {
+    "name": "org-question-rules",
+    "url": "https://ministryofeconomyandindustry.kayanos.app/forms/view/001",
+    "marks": [
+      {
+        "n": 1,
+        "label": "مطلوب"
+      },
+      {
+        "n": 2,
+        "label": "مرئي"
+      },
+      {
+        "n": 3,
+        "label": "قابل للتعديل"
+      },
+      {
+        "n": 4,
+        "label": "القيمة الافتراضية"
+      },
+      {
+        "n": 5,
+        "label": "متكرر"
+      },
+      {
+        "n": 6,
+        "label": "قواعد التحقق"
+      }
+    ],
+    "capturedAt": "2026-11-06T20:30:41.163Z"
+  },
+  {
+    "name": "org-required-condition",
+    "url": "https://ministryofeconomyandindustry.kayanos.app/forms/view/001",
+    "marks": [
+      {
+        "n": 1,
+        "label": "إلزام"
+      },
+      {
+        "n": 2,
+        "label": "تعديل القاعدة نوع القاعدة إظهار أو إخفاء إلزام قفل"
+      },
+      {
+        "n": 3,
+        "label": "تعديل القاعدة نوع القاعدة إظهار أو إخفاء إلزام قفل"
+      },
+      {
+        "n": 4,
+        "label": "تعديل القاعدة نوع القاعدة إظهار أو إخفاء إلزام قفل"
+      },
+      {
+        "n": 5,
+        "label": "حفظ في المسودة"
+      }
+    ],
+    "capturedAt": "2026-11-06T20:44:47.104Z"
+  },
+  {
+    "name": "org-record-fields",
+    "url": "https://ministryofeconomyandindustry.kayanos.app/forms/view/001",
+    "marks": [
+      {
+        "n": 1,
+        "label": "المنشآت التجارية · الحقول نوع السجل 2 الحقول 3 الق"
+      },
+      {
+        "n": 2,
+        "label": "المنشآت التجارية · الحقول نوع السجل 2 الحقول 3 الق"
+      },
+      {
+        "n": 3,
+        "label": "المنشآت التجارية · الحقول نوع السجل 2 الحقول 3 الق"
+      },
+      {
+        "n": 4,
+        "label": "المنشآت التجارية · الحقول نوع السجل 2 الحقول 3 الق"
+      },
+      {
+        "n": 5,
+        "label": "المنشآت التجارية · الحقول نوع السجل 2 الحقول 3 الق"
+      },
+      {
+        "n": 6,
+        "label": "التالي: القوائم المرتبطة"
+      }
+    ],
+    "capturedAt": "2026-11-06T20:52:10.132Z"
+  },
+  {
+    "name": "org-record-source",
+    "url": "https://ministryofeconomyandindustry.kayanos.app/forms/view/001",
+    "marks": [
+      {
+        "n": 1,
+        "label": "ابحث في أنواع السجلات"
+      },
+      {
+        "n": 2,
+        "label": "استخدام سؤال «اسم المنشأة / الاسم التجاري المقترح»"
+      },
+      {
+        "n": 3,
+        "label": "سؤال سجل جديد"
+      },
+      {
+        "n": 4,
+        "label": "بلا سؤال سجل"
+      },
+      {
+        "n": 5,
+        "label": "التالي: الحقول"
+      }
+    ],
+    "capturedAt": "2026-11-06T21:01:38.638Z"
+  },
+  {
+    "name": "org-dashboard-create",
+    "url": "https://ministryofeconomyandindustry.kayanos.app/dashboards",
+    "marks": [
+      {
+        "n": 1,
+        "label": "أدخل النص"
+      },
+      {
+        "n": 2,
+        "label": "أدخل النص"
+      },
+      {
+        "n": 3,
+        "label": "إنشاء"
+      }
+    ],
+    "capturedAt": "2026-11-06T21:04:03.858Z"
+  }
+]

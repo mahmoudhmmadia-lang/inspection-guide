@@ -1,0 +1,61 @@
+{
+  "checks": [
+    "home and walkthrough at 1440 and 390, every screenshot decodes, dark and light",
+    "no horizontal overflow",
+    "fourteen organization screenshots",
+    "mark-as-done persists after reload",
+    "search opens the record-question step",
+    "no page errors"
+  ],
+  "evidence": [
+    {
+      "width": 1440,
+      "theme": "dark",
+      "file": "index",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "file": "c1",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "file": "index",
+      "passed": true
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "file": "c1",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "file": "index",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "file": "c1",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "file": "index",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "file": "c1",
+      "passed": true
+    }
+  ],
+  "errors": []
+}
