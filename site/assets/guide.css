@@ -2948,3 +2948,38 @@ details[open] > summary > .toc-sec-chevron { transform: none; }
   .topbar .search-btn { min-width: 40px; min-height: 40px; padding: 9px; }
   .topbar .lang-btn { padding-inline: 9px; }
 }
+/* Guide apps: the launcher in the top bar and the same tiles on the home page. */
+.apps-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-width:44px; min-height:44px; padding:8px 12px; font:600 .8rem var(--font-body); white-space:nowrap; color:var(--text); background:transparent; border:1px solid transparent; border-radius:12px; cursor:pointer; }
+.apps-btn:hover { background:var(--surface-raised); border-color:var(--border); }
+.apps-dialog { width:min(760px, calc(100% - 32px)); }
+.apps-dialog .help-dialog-body { gap:22px; }
+.apps-group h3 { display:flex; align-items:baseline; flex-wrap:wrap; gap:4px 10px; margin:0 0 12px; font-size:.95rem; line-height:1.6; }
+.apps-group h3 small { font-weight:400; font-size:.8rem; color:var(--text-muted); }
+.apps-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap:12px; }
+.app-tile { --app:var(--brand); display:flex; gap:14px; padding:16px; border:1px solid var(--border); border-radius:var(--radius); background:var(--surface-raised); color:var(--text); text-decoration:none; text-align:start; transition:border-color .2s, transform .2s, box-shadow .2s; }
+.app-tile[data-app='builder'] { --app:var(--accent); }
+.app-tile[data-app='inspection'] { --app:var(--eyebrow); }
+.app-tile[data-app='correspondence'] { --app:var(--warn); }
+.app-tile:hover { border-color:var(--app); transform:translateY(-2px); box-shadow:var(--shadow); }
+.app-tile[aria-current] { border-color:color-mix(in srgb, var(--app) 55%, transparent); background:color-mix(in srgb, var(--app) 7%, var(--surface-raised)); }
+.app-icon { flex:none; display:grid; place-items:center; width:48px; height:48px; border-radius:14px; color:var(--app); background:color-mix(in srgb, var(--app) 14%, transparent); border:1px solid color-mix(in srgb, var(--app) 30%, transparent); }
+.app-icon .ic { width:24px; height:24px; }
+.app-body { display:grid; gap:6px; min-width:0; align-content:start; }
+.app-name { display:flex; align-items:center; flex-wrap:wrap; gap:8px; font-weight:700; font-size:1rem; line-height:1.5; }
+.app-badge { font:600 .68rem/1.6 var(--font-body); padding:1px 8px; border-radius:999px; border:1px solid var(--border-strong); color:var(--text-muted); }
+.app-badge.app-here { border-color:transparent; background:color-mix(in srgb, var(--app) 16%, transparent); color:var(--app); }
+.app-desc { font-size:.86rem; line-height:1.8; color:var(--text-muted); }
+.app-deepens { display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-top:4px; font-size:.74rem; color:var(--text-muted); }
+.app-deepens b { font-weight:600; padding:2px 9px; border-radius:999px; color:var(--app); background:color-mix(in srgb, var(--app) 12%, transparent); }
+.apps-home { display:grid; gap:22px; }
+.apps-home .paths-title { margin-bottom:0; }
+.apps-home .app-tile { background:linear-gradient(160deg, var(--glass-from), var(--glass-to)); }
+@media (max-width:900px) { .apps-btn { padding:8px; } .apps-btn > span { display:none; } }
+@media (prefers-reduced-motion: reduce) { .app-tile { transition:none; } .app-tile:hover { transform:none; } }
+.reading-help { padding:4px 8px 20px; border-bottom:1px solid var(--border); line-height:1.9; }
+.reading-help li { margin-block:10px; }
+
+/* Recorded walkthrough under a section heading. */
+.guide-video { margin: 22px 0; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+.guide-video video { display: block; width: 100%; max-height: 70vh; border-radius: calc(var(--radius) - 6px); background: #000; }
+.guide-video figcaption { padding: 10px 6px 2px; color: var(--text-muted); font-size: 0.92em; }

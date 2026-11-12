@@ -25,6 +25,15 @@
     helpButton?.focus({ preventScroll: true });
     window.scrollTo({ top: helpScroll, behavior: 'instant' });
   });
+  // Guide apps launcher: same dialog behaviour as help.
+  const appsDialog = $('#guide-apps');
+  const appsButton = $('[data-open-apps]');
+  appsButton?.addEventListener('click', () => { if (appsDialog && !appsDialog.open) appsDialog.showModal(); });
+  appsDialog?.addEventListener('click', event => {
+    const box = appsDialog.getBoundingClientRect();
+    if (event.target === appsDialog && (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom)) appsDialog.close();
+  });
+  appsDialog?.addEventListener('close', () => appsButton?.focus({ preventScroll: true }));
   const showLinkedHelp = () => {
     if (location.hash !== '#guide-help') return;
     history.replaceState(null, '', location.pathname + location.search);

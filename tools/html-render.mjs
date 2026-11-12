@@ -9,6 +9,7 @@
 import { renderDiagram } from './html-diagram.mjs'
 import { parseInline } from './latex-parse.mjs'
 import { renderChapterOverview } from './chapter-overviews.mjs'
+import { guideUrl } from './guide-links.mjs'
 
 // A count with its noun in correct Arabic agreement (1, 2, 3–10, 11+) or English plural.
 const COUNT_WORDS = {
@@ -416,6 +417,9 @@ function renderBlock(b, ctx) {
             return renderTable(b, ctx)
         case 'figure':
             return renderFigure(b, ctx)
+        case 'video':
+            // A recorded walkthrough placed under its section heading (tools/guide-videos.mjs).
+            return `<figure class="guide-video reveal"><video controls preload="metadata" playsinline src="../assets/videos/${esc(b.file.split('/').pop())}"></video>${b.title ? `<figcaption>${esc(b.title)}</figcaption>` : ''}</figure>`
         case 'box': {
             const title = b.title ? inline(b.title, ctx) : esc(ctx.ui.boxes[b.kind])
             return `<aside class="callout callout-${b.kind}${EXAMPLE.test(b.title ?? '') ? ' is-example' : ''} reveal"><div class="callout-head">${icon(b.kind)}<span>${title}</span></div><div class="callout-body">${b.blocks.map((x) => renderBlock(x, ctx)).join('')}</div></aside>`
@@ -435,6 +439,39 @@ const words = (html) =>
 const ARROW = '<svg class="ic flip" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>'
 const ring = (id) =>
     `<span class="toc-ring" data-ring="${id}" aria-hidden="true"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/><circle class="ring-val" cx="10" cy="10" r="8" pathLength="100"/></svg></span>`
+
+// The guides as apps. The two reference guides explain every page; each
+// practical app builds one real workflow and names the parts of Kayan it makes
+// clearer. Addresses come from guide-links.mjs.
+const APPS_UI = {
+    ar: { title: 'تطبيقات الدليل', heading: 'اختر ما تريد أن تفهمه', here: 'أنت هنا', soon: 'قريباً', deepens: 'يعمّق فهمك لـ', groups: { reference: ['المرجع', 'يشرح كل صفحة في كيان'], practice: ['تطبيقات عملية', 'تفهم الأدوات وأنت تبني بها مساراً كاملاً'] } },
+    en: { title: 'Guide apps', heading: 'Choose what you want to understand', here: 'You are here', soon: 'Coming soon', deepens: 'Deepens', groups: { reference: ['Reference', 'Explains every page in Kayan'], practice: ['Practical apps', 'Understand the tools by building a full workflow with them'] } },
+}
+const GUIDE_APPS = [
+    { id: 'main', group: 'reference', icon: '<path d="M5 4h10a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h10M9 8h5"/>',
+      ar: ['الدليل الرئيسي', 'المرجع الكامل لتطبيقات كيان: الموارد البشرية والمهام والمشاريع والمراسلات والإعدادات.'],
+      en: ['Main guide', 'The full reference for Kayan apps: HR, tasks, projects, correspondence and settings.'] },
+    { id: 'builder', group: 'reference', icon: '<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/><path d="M16.5 4v7M13 7.5h7M7.5 13v7M4 16.5h7"/>',
+      ar: ['أدوات البناء', 'كل أداة بناء صفحةً صفحة: الكيانات والنماذج والخدمات والإجراءات ولوحات المعلومات.'],
+      en: ['Builder', 'Every builder tool page by page: entities, forms, services, SOPs and dashboards.'] },
+    { id: 'inspection', group: 'practice', icon: '<path d="M9 4h6l1 2h3v14H5V6h3z"/><path d="m9 13 2 2 4-4"/>',
+      ar: ['الكشف على المنشآت', 'تبني مسار كشف كاملاً من الصفر، فترى أدوات البناء وهي تعمل معاً.', ['الكيانات', 'النماذج', 'لوحات المعلومات']],
+      en: ['Inspection', 'Build a full inspection workflow from scratch and see the builder tools work together.', ['Entities', 'Forms', 'Dashboards']] },
+    { id: 'correspondence', group: 'practice', soon: true, icon: '<rect x="3" y="6" width="18" height="13" rx="2"/><path d="m3 8 9 6 9-6"/>',
+      ar: ['المراسلات', 'تتابع دورة كتاب رسمي من إنشائه إلى أرشفته: الوارد والإحالة والرد والصادر.', ['المراسلات الرسمية', 'الموارد البشرية']],
+      en: ['Correspondence', 'Follow an official letter from drafting to archive: incoming, referral, reply and outgoing.', ['Official correspondence', 'HR']] },
+]
+function guideApps(lang, currentId, home) {
+    const t = APPS_UI[lang]
+    return Object.entries(t.groups).map(([group, [title, hint]]) => `<section class="apps-group"><h3>${esc(title)}<small>${esc(hint)}</small></h3><div class="apps-grid">${GUIDE_APPS.filter(a => a.group === group).map(app => {
+        const [name, desc, deepens] = app[lang]
+        const current = currentId === app.id
+        // The two walkthroughs are written in Arabic only.
+        const target = `${guideUrl(app.id)}${app.group === 'reference' ? lang : 'ar'}/${app.id === 'builder' ? 'builder' : 'index'}.html`
+        const badge = current ? `<small class="app-badge app-here">${esc(t.here)}</small>` : app.soon ? `<small class="app-badge">${esc(t.soon)}</small>` : ''
+        return `<a class="app-tile" data-app="${app.id}" href="${current ? home : target}"${current ? ' aria-current="page"' : ''}><span class="app-icon" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24">${app.icon}</svg></span><span class="app-body"><span class="app-name">${esc(name)}${badge}</span><span class="app-desc">${esc(desc)}</span>${deepens ? `<span class="app-deepens"><span>${esc(t.deepens)}</span>${deepens.map(d => `<b>${esc(d)}</b>`).join('')}</span>` : ''}</span></a>`
+    }).join('')}</div></section>`).join('')
+}
 
 // Head, top bar, search palette, lightbox and data shared by every page.
 function shell({ ui, lang, page, home = 'index.html', title, description, body, data, assetsVersion }) {
@@ -461,6 +498,7 @@ function shell({ ui, lang, page, home = 'index.html', title, description, body, 
   <div class="topbar-in">
     ${page === home ? '' : `<button class="icon-btn menu-btn" type="button" data-open-toc aria-label="${esc(ui.menu)}"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></svg></button>`}
     <a class="brand" href="${home}" aria-label="${esc(ui.brand)}"><img src="../assets/kayanos-mark.svg" alt="" width="34" height="23"><span class="brand-name">Kayan<b>OS</b></span><span class="brand-sep"></span><span class="brand-sub">${esc(ui.brand)}</span></a>
+    <button class="apps-btn" type="button" data-open-apps aria-haspopup="dialog" aria-controls="guide-apps" aria-label="${esc(APPS_UI[lang].title)}" title="${esc(APPS_UI[lang].title)}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg><span>${esc(APPS_UI[lang].title)}</span></button>
     <button class="search-btn" type="button" data-open-search><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><span>${esc(ui.search)}</span><kbd dir="ltr">Ctrl K</kbd></button>
     <button class="guide-help-link" type="button" data-open-help aria-haspopup="dialog" aria-controls="guide-help" aria-label="${esc(ui.help)}" title="${esc(ui.help)}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 .5c0 1.5-2.5 2-2.5 3.5M12 16h.01"/></svg><span>${esc(ui.help)}</span></button>
     <a class="lang-btn" href="../${ui.other}/${page}" data-lang-switch="${ui.other}" hreflang="${ui.other}" lang="${ui.other}">${esc(ui.otherName)}</a>
@@ -469,9 +507,14 @@ function shell({ ui, lang, page, home = 'index.html', title, description, body, 
   </div>
 </header>
 ${body}
+<dialog class="help-dialog apps-dialog" id="guide-apps" aria-labelledby="apps-title">
+  <header class="help-dialog-head"><div><span class="help-eyebrow">${esc(APPS_UI[lang].title)}</span><h2 id="apps-title">${esc(APPS_UI[lang].heading)}</h2></div><form method="dialog"><button class="icon-btn" aria-label="${esc(ui.close)}" autofocus><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></form></header>
+  <div class="help-dialog-body">${guideApps(lang, data.guideId, home)}</div>
+</dialog>
 <dialog class="help-dialog" id="guide-help" aria-labelledby="help-title">
   <header class="help-dialog-head"><div><span class="help-eyebrow">${esc(ui.help)}</span><h2 id="help-title">${esc(ui.helpTitle)}</h2></div><form method="dialog"><button class="icon-btn" aria-label="${esc(ui.close)}" autofocus><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></form></header>
   <div class="help-dialog-body">
+    ${data.readingHelp || ''}
     <section class="help-card"><span class="help-card-no" aria-hidden="true">01</span><div><h3>${esc(ui.helpFieldsTitle)}</h3><p>${esc(ui.helpFields)}</p></div></section>
     <section class="help-card"><span class="help-card-no" aria-hidden="true">02</span><div><h3>${esc(ui.helpDiagramsTitle)}</h3><p>${esc(ui.helpDiagrams)}</p><ul class="legend">${Object.entries(ui.legend).map(([kind, label]) => `<li><svg viewBox="0 0 36 10" aria-hidden="true"><line class="dg-edge dg-${kind} static" x1="2" y1="5" x2="30" y2="5"/><path class="dg-head dg-head-${kind}" d="${kind === 'flowsTo' ? 'M27 1 L34 5 L27 9' : 'M27 1 L34 5 L27 9 Z'}"/></svg>${esc(label)}</li>`).join('')}</ul></div></section>
     <section class="help-card"><span class="help-card-no" aria-hidden="true">03</span><div><h3>${esc(ui.helpWorkTitle)}</h3><p>${esc(ui.helpWork)}</p></div></section>
@@ -545,6 +588,12 @@ export function renderSite(doc, { lang, assetsVersion = '', guide = {} }) {
     const { home = 'index.html', prefix = 'c', store = 'kos-guide-progress', parent = null, linked = {}, extra = null, out = null } = guide
     const ui = { ...UI[lang] }
     const { chapters, ids } = structure(doc, prefix)
+    // Keep authored reading advice in the help dialog, outside the lesson and its search index.
+    const readingBlocks = []
+    if (guide.readingHelp) for (const chapter of chapters) for (const section of chapter.sections) {
+        const at = section.blocks.findIndex(b => b.type === 'heading' && b.title === guide.readingHelp.title)
+        if (at >= 0) readingBlocks.push(...section.blocks.splice(at, guide.readingHelp.blocks + 1))
+    }
     const features = chapters.flatMap(c => c.sections).filter(s => /^sec:(hr|tasks|projects|builder|correspondence|settings)-feature-/.test(s.label ?? ''))
     const routes = {}
     for (const s of features) {
@@ -632,6 +681,8 @@ export function renderSite(doc, { lang, assetsVersion = '', guide = {} }) {
     // The other guide's entries make search span both guides; its routes open them.
     if (out) Object.assign(out, { search, routes, ids, labels: doc.labels, chapters: chapters.map((c) => ({ id: c.id, page: pageOf(c.id), number: c.number, count: c.sections.length })) })
     const data = {
+        guideId: guide.id ?? (parent ? 'builder' : 'main'),
+        readingHelp: readingBlocks.length ? `<section class="reading-help">${readingBlocks.map(b => renderBlock(b, { ...base, page: home })).join('')}</section>` : '',
         lang,
         home,
         store,
@@ -695,6 +746,10 @@ export function renderSite(doc, { lang, assetsVersion = '', guide = {} }) {
     <h2 class="paths-title reveal">${esc(ui.paths)}</h2>
     <div class="paths-grid">${cards}</div>
     <button class="reset-btn home-reset" type="button" data-reset>${esc(ui.reset)}</button>
+  </div>
+  <div class="paths apps-home">
+    <h2 class="paths-title reveal">${esc(APPS_UI[lang].title)}</h2>
+    ${guideApps(lang, data.guideId, home)}
   </div>
 </section>
 </main>`,

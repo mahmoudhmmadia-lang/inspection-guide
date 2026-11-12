@@ -4,6 +4,7 @@ import http from 'node:http';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildHtml, ROOT } from './build-html.mjs';
+import { localizeGuideLinks } from './guide-links.mjs';
 
 export function createServer() {
   const site = path.join(ROOT, 'site');
@@ -17,7 +18,9 @@ export function createServer() {
     if (fs.existsSync(file) && fs.statSync(file).isDirectory()) file = path.join(file, 'index.html');
     if (!fs.existsSync(file) || !fs.statSync(file).isFile()) { res.writeHead(404).end(); return; }
     res.writeHead(200, { 'Content-Type': types[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store' });
-    fs.createReadStream(file).pipe(res);
+    // Local preview: links between guides open the local servers, not production.
+    if (path.extname(file) === '.html') res.end(localizeGuideLinks(fs.readFileSync(file, 'utf8')));
+    else fs.createReadStream(file).pipe(res);
   });
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

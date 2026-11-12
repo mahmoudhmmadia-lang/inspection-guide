@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url'
 // Bundled renderer and theme keep standalone deployments independent of sibling repositories.
 import { loadDocument } from './latex-parse.mjs'
 import { renderSite, UI } from './html-render.mjs'
+import { loadVideos, attachVideos, copyVideos } from './guide-videos.mjs'
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const WEB = path.join(ROOT, 'web')
@@ -20,6 +21,7 @@ export function buildHtml(root = ROOT) {
         fs.copyFileSync(path.join(WEB, name), path.join(site, 'assets', name))
     }
     const doc = loadDocument(root, { lang: 'ar' })
+    copyVideos(root, site, attachVideos(doc.blocks, loadVideos(root), 'ar'))
     const original = { ...UI.ar }
     let pages
     try {
@@ -29,7 +31,7 @@ export function buildHtml(root = ROOT) {
             helpWork:
                 'يحفظ زر «تحديد كمنجزة» تقدّم قراءتك في هذا المتصفح فقط، ولا يغيّر شيئاً في كيان.',
         })
-        pages = renderSite(doc, { lang: 'ar', guide: { store: STORE } })
+        pages = renderSite(doc, { lang: 'ar', guide: { store: STORE, id: 'inspection', readingHelp: { title: 'كيف تقرأ هذا الدليل؟', blocks: 1 } } })
     } finally {
         Object.assign(UI.ar, original)
     }
