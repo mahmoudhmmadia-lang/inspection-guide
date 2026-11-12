@@ -9,8 +9,8 @@ const pages = buildHtml();
 const doc = loadDocument(ROOT, { lang: 'ar' });
 const read = (name) => fs.readFileSync(path.join(ROOT, 'site/ar', name), 'utf8');
 
-test('only the practical chapter and home page are built in Arabic', () => {
-  assert.deepEqual(Object.keys(pages).sort(), ['c1.html', 'index.html']);
+test('the practical chapters and home page are built in Arabic', () => {
+  assert.deepEqual(Object.keys(pages).sort(), ['c1.html', 'c2.html', 'index.html']);
   for (const name of Object.keys(pages)) {
     const html = read(name);
     assert.match(html, /<html lang="ar" dir="rtl"/);
@@ -35,14 +35,14 @@ test('every local link and fragment resolves', () => {
 
 test('every figure has an explanation and every diagram renders', () => {
   const figures = doc.blocks.filter((b) => b.type === 'figure');
-  assert.equal(figures.length, 14);
+  assert.equal(figures.length, 15);
   for (const b of figures) assert.ok(b.note, `figure ${b.label} has no \\shotnote`);
   const diagrams = Object.keys(pages).reduce((n, name) => n + (read(name).match(/<svg class="diagram"/g) || []).length, 0);
   assert.equal(diagrams, doc.blocks.filter((b) => b.tikz).length);
 });
 
 test('each beginner step explains the action and includes a result or verification', () => {
-  for (const name of ['c1.html']) {
+  for (const name of ['c1.html', 'c2.html']) {
     const steps = read(name).split(/<section class="step/).slice(1);
     assert.ok(steps.length >= 4, `${name}: steps`);
     for (const step of steps) {
@@ -75,4 +75,11 @@ test('organization walkthrough keeps exact names, numbered screenshots and execu
   assert.ok(html.includes('لنفترض أن لدينا مؤسسة'));
   for (const topic of ['أنشئ لوحة مؤشرات المنشآت التجارية', 'اربط مؤشر العدد بالمنشآت', 'أضف توزيع المنشآت وجدول التفاصيل', 'أضف التصفية بالمحافظة والنشاط واربطها بالعناصر', 'أضف البحث عن منشأة واربط الاختيار باللوحة', 'انشر اللوحة وجرّب البحث بحساب رئيس الفريق', 'استخدام في المرشح']) assert.ok(html.includes(topic), topic);
   assert.doesNotMatch(html, /من منظمتك:|هذه المراجعة|assets\/screens\/(b-|i-)/);
+});
+
+test('real example follows the patrol, violation report and settlement flow', () => {
+  const html = read('c2.html').split('<main')[1].split('</main>')[0];
+  for (const text of ['دائرة حماية المستهلك', 'رئيس دائرة حماية المستهلك', 'رئيس دورية حماية المستهلك — 01', 'مراقب تمويني — 01', 'موظف التسويات والإحالة — 01', 'محضر دورية على فرن', 'المرسوم التشريعي رقم 8 لعام 2021', 'كلهم · إجابة مشتركة', 'يُكتب عند الاعتماد', 'الحالة الرقابية']) assert.ok(html.includes(text), text);
+  for (const m of html.matchAll(/(مازن قاسم|رنا شاهين|سلمى عبود|فادي الخوري)(?! — تجريبي)/g)) assert.fail('demo member without marker: ' + m[0]);
+  assert.doesNotMatch(html, /<figure class="shot/);
 });

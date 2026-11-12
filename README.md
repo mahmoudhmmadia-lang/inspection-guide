@@ -36,3 +36,9 @@ npm start
 Deploy this repository as a **Static Site**, branch `main`. Leave **Root Directory** empty, use **Build Command** `npm install && npm run build`, and set **Publish Directory** to `site` (not `.`). No start command is needed. Existing dashboard services must have these settings updated manually; `render.yaml` also defines them for Blueprint creation.
 
 Local checks: `npm test`. For browser checks, run `npm --prefix tools ci`, then `npm run verify` (requires Microsoft Edge). Preview with `npm start`.
+
+## الفصل الثاني: مثال من الواقع (دورية تموينية على فرن)
+
+`chapters/02-real-example.tex` يطبّق أدوات الفصل الأول على عمل دوريات حماية المستهلك: جولة على أفران منطقة بخطة تكليف وإجابة مشتركة لعضوي الدورية، ومحضر فيه وزن الربطة أمام الزبون وبنود السعر والنظافة والدقيق، وأسئلة ضبط وعينة تظهر وتُطلب عند المخالفة فقط، وتدقيق رئيس الدائرة، وكتابة «الحالة الرقابية» و«تاريخ آخر دورية» في ملف الفرن عند الاعتماد، ثم متابعة التسوية أو الإحالة بلوحة مؤشرات. يضيف ثلاثة مناصب وأربعة أعضاء تجريبيين ودوراً واحداً، ويعيد استخدام منصب «رئيس دائرة حماية المستهلك».
+
+الحقيقي فيه: عمل الدورية، ووزن الربطة أمام الزبون، وتسجيل الدقيق على البطاقة الإلكترونية، والضبط وفق المرسوم التشريعي 8 لعام 2021، وحجز العينة حتى نتيجة التحليل، والتسوية خلال سبعة أيام لبعض المخالفات ثم الإحالة إلى القضاء. لا يذكر وزناً معتمداً للربطة لأن المصادر تختلف؛ يُسجَّل من التعميم النافذ في كل محضر. الفصل بلا صور من النظام، وفيه رسم توضيحي واحد. لم تُنفذ هذه الدورة على منظمة حية بعد.

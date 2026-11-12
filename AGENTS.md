@@ -3,7 +3,10 @@
 This is a standalone Arabic beginner guide. The latest user request supersedes
 the older multi-chapter, fictional-example and review-only instructions.
 
-- Publish only `chapters/01b-build.tex`: the step-by-step inspection workflow.
+- Publish `chapters/01b-build.tex` (the step-by-step inspection workflow) and
+  `chapters/02-real-example.tex` (مثال من الواقع: a real bakery patrol, violation
+  report and settlement, matching the correspondence guide's real-example chapter).
+  Chapter 2 uses an illustrative diagram only, no screenshots.
 - Keep HR setup concise, but teach builder tools in depth: setting meanings,
   choices and reasons, concrete configuration, expected results, negative cases,
   and troubleshooting. Do not interpret "concise" as omitting form/dashboard detail.
